@@ -12,16 +12,41 @@ Things you may want to cover:
 * Configuration
 
 * Database creation
-## userテーブル
+## usersテーブル
+
+|Column|Type|Options|
+|------|----|-------|
+|name|string|null: false,index: true|
+|e-mail|integer|null: false|
+
+### Association
+- has_many :members
+- has_many :messages
+- has_many :groups, through: :members
+
+## messagesテーブル
+
+|Column|Type|Options|
+|------|----|-------|
+|user_id|references|null: false, foreign_key: true|
+|group_id|references|null: false, foreign_key: true|
+|image|string|
+|body|text|
+
+### Association
+- belongs_to :groups
+- belongs_to :users
+
+## groupsテーブル
 
 |Column|Type|Options|
 |------|----|-------|
 |name|string|null: false|
-|e-mail|integer|null: false|
 
 ### Association
-- has_many :menbers
-- has_many :group, through: :menbers
+- has_many :members
+- has_many :messages
+- has_many :users, through: :members
 
 ## membersテーブル
 
@@ -29,24 +54,10 @@ Things you may want to cover:
 |------|----|-------|
 |user_id|integer|null: false, foreign_key: true|
 |group_id|integer|null: false, foreign_key: true|
-|image|string|
-|body|text|null: false|
 
 ### Association
-- belongs_to :group
-- belongs_to :user
-
-## groupテーブル
-
-|Column|Type|Options|
-|------|----|-------|
-|group-name|string|null: false|
-|menber_name|string|null: false|
-
-### Association
-- has_many :menbers
-- has_many :user, through: :menbers
-
+- belongs_to :groups
+- belongs_to :users
 
 * Database initialization
 
